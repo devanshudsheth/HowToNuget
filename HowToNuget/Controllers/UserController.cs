@@ -16,7 +16,13 @@ namespace HowToNuget.Controllers
     {
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<UserDto> Get() => BogusExtensions.BogusExtensions.GetFakeUsers(3);
+        public IEnumerable<UserDto> Get()
+        {
+            var users =  BogusExtensions.BogusExtensions.GetFakeUsers(3);
+            return users;
+        }
+
+        
 
         //// GET api/<UserController>/5
         //[HttpGet("{id}")]
