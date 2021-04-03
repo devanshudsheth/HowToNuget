@@ -50,13 +50,11 @@ namespace BogusExtensions
                .RuleFor(u => u.uuid, Guid.NewGuid)
 
                //Use a method outside scope.
-               //Compound property with context, use the first/last name properties
-               .RuleFor(u => u.FullName, (f, u) => u.FirstName + " " + u.LastName)
                //And composability of a complex collection.
                //After all rules are applied finish with the following action
                .FinishWith((f, u) =>
                {
-                   Console.WriteLine("User Created! Name={0}", u.FullName);
+                   Console.WriteLine("User Created! Name={0} {1}", u.FirstName, u.LastName );
                });
 
             var users = testUsers.Generate(numUsers);

@@ -1,10 +1,7 @@
-﻿using BogusExtensions;
+﻿using AutoMapper;
+using HowToNuget.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BogusExtensions.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,16 +11,28 @@ namespace HowToNuget.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<UserDto> Get()
+        private readonly IMapper mapper;
+
+        public UserController(IMapper mapper)
         {
-            var users =  BogusExtensions.BogusExtensions.GetFakeUsers(3);
-            return users;
+            this.mapper = mapper;
         }
 
-        
+        // GET: api/<UserController>
+        [HttpGet]
+        public IEnumerable<User> Get()
+        {
+            return GetAllUsers();
+        }
 
+        private IEnumerable<User> GetAllUsers()
+        {
+            var userDtos = BogusExtensions.BogusExtensions.GetFakeUsers(3);
+            List<User> users = new List<User>(userDtos.Count);
+            userDtos.ForEach(dtoObj => users.Add(mapper.Map<User>(dtoObj)));
+            return users;
+        }
+ 
         //// GET api/<UserController>/5
         //[HttpGet("{id}")]
         //public string Get(int id)
